@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "stage-3", ["latest-node", { "target": "current" }]
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-decorators-legacy"
+  ]
+}
