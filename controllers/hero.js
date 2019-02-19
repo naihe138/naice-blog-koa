@@ -52,7 +52,7 @@ export const editeHero = async (_id, opt) => {
  * @param {*} opts
  */
 export const getHero = async (opts = {} ) => {
-	let { current_page = 1, page_size = 12, keyword = '', state = '' } = opts
+	let { current_page = 1, page_size = 12, keyword = '', state = 1 } = opts
 	let result = {}
     // 过滤条件
     const options = {

@@ -2,7 +2,7 @@
 // 中间件集合
 import bodyParser from'koa-bodyparser' // post body 解析
 import helmet from 'koa-helmet' // 安全相关
-// import cors from 'koa-cors'
+import cors from 'koa-cors'
 import Interceptor from './interceptor'
 
 // https://github.com/cnpm/koa-limit/blob/master/example.js
@@ -16,9 +16,9 @@ const middlewares = (app) => {
 	})
 
 	// middleware
-	// app.use(cors({
-	// 	origin: true
-	// }))
+	app.use(cors({
+		origin: true
+	}))
 	app.use(Interceptor)
 	app.use(helmet())
 	app.use(bodyParser({
@@ -38,6 +38,6 @@ const middlewares = (app) => {
 			ctx.body = { code: 0, message: '无效的api请求'}
 		}
 	})
-}
+} 
 
 export default middlewares

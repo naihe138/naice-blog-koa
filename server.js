@@ -1,7 +1,6 @@
 'use strict'
 
 import Koa from 'koa'
-import http from 'http'
 import config from './config'
 import mongoConnect from './mongodb'
 import { resolve } from 'path'

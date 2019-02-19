@@ -1,41 +1,38 @@
 'use strict'
 
-import {argv} from 'yargs'
-
 const MONGODB = {
-	uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/my_blog`,
-	username: argv.db_username || 'DB_username123',
-	password: argv.db_password || 'DB_password'
+	uri: 'mongodb://127.0.0.1:27017/blogapi',
+	prouri: 'mongodb://xxxxx@xxxxx/blogapi'
 }
 
 const QINIU = {
-	accessKey: argv.qn_accessKey || 'your_qn_accessKey',
-	secretKey: argv.qn_secretKey || 'your_qn_secretKey',
-	bucket: argv.qn_bucket || 'blog',
-	origin: argv.qn_origin || 'http://blog.u.qiniudn.com',
-	uploadURL: argv.qn_uploadURL || 'http://up.qiniu.com/'
+	accessKey: 'your_qn_accessKey',
+	secretKey: 'your_qn_secretKey',
+	bucket: 'naice',
+	origin: 'xxxxxx',
+	uploadURL: 'your_qn_uploadURL'
 }
 
 const User = {
-	jwtTokenSecret: argv.auth_key || 'naice_blog',
-	defaultUsername: argv.auth_default_username || 'naice',
-	defaultPassword: argv.auth_default_password || '123456'
+	jwtTokenSecret: 'naice_blog',
+	defaultUsername: 'naice',
+	defaultPassword: '123456'
 }
 
 const EMAIL = {
-	account: argv.EMAIL_account || 'your_email_account',
-	password: argv.EMAIL_password || 'your_email_password'
+	account: 'xxxxx@xx.com',
+	password: 'xxxx'
 }
 
 const BAIDU = {
-	site: argv.baidu_site || 'your_baidu_site',
-	token: argv.baidu_token || 'your_baidu_token'
+	site: 'blog.naice.me',
+	token: 'xxxxxxx'
 }
 
 const APP = {
 	ROOT_PATH: '/api',
 	LIMIT: 10,
-	PORT: 8000
+	PORT: 3009
 }
 
 const INFO = {

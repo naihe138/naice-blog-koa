@@ -22,7 +22,7 @@ const heroSchema = new mongoose.Schema({
 		// 邮箱
 		email: { type: String, required: true, validate: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/ },
 		// 网站
-		site: { type: String, validate: /^((https|http):\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/ }
+		site: { type: String }
 	},
 	
   	// 状态  0 待审核，1 审核通过， 2 审核不通过

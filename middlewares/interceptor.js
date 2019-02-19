@@ -4,7 +4,7 @@ const authIsVerified = require('../utils/auth');
 
 export default async (ctx, next) => {
   // 拦截器
-	const allowedOrigins = ['https://blog.naice.me', 'https://blog.admin.naice.cn', 'file://'];
+	const allowedOrigins = ['https://blog.naice.me', 'https://blog.admin.naice.me', 'file://'];
 	const origin = ctx.request.headers.origin || '';
 	if (allowedOrigins.includes(origin) || origin.includes('localhost')) {
 		ctx.set('Access-Control-Allow-Origin', origin);
@@ -35,9 +35,10 @@ export default async (ctx, next) => {
 			};
 		}
 	};
-	// 排除评论的post请求 && like请求 && hero post
+	// 排除auth的post请求 && 评论的post请求 && like请求 && hero post
 	const isLike = ctx.request.url.indexOf('/article/like') >= 0 && Object.is(ctx.request.method, 'POST');
 	const isCommentLike = ctx.request.url.indexOf('/comment/like') >= 0 && Object.is(ctx.request.method, 'POST');
+	// const isPostAuth = Object.is(ctx.request.url, '/api/auth') && Object.is(ctx.request.method, 'POST');
 	const isLogin = ctx.request.url.indexOf('/user/login') >= 0 && Object.is(ctx.request.method, 'POST');
 	const isHero = Object.is(ctx.request.url, '/api/hero/add') && Object.is(ctx.request.method, 'PUT');
 	const isPostComment = Object.is(ctx.request.url, '/api/comment/add') && Object.is(ctx.request.method, 'PUT');

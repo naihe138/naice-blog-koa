@@ -18,7 +18,7 @@ export class heroController {
 		opts.content = xss(opts.content)
 		try {
 			let article = await putHero(ctx, opts)
-		resSuccess({ ctx, message: '添加留言成功'})
+			resSuccess({ ctx, message: '添加留言成功'})
 		} catch (err) {
 			resError({ ctx, message: '添加留言失败', err})
 		}
