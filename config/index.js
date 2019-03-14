@@ -20,8 +20,9 @@ const User = {
 }
 
 const EMAIL = {
+	service: 'QQ',
 	account: 'xxxxx@xx.com',
-	password: 'xxxx'
+	password: 'xxxx' // IMAP/SMTP授权码，需要从qq邮箱获取
 }
 
 const BAIDU = {

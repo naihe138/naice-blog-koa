@@ -2,22 +2,19 @@
 
 import config from '../config'
 import nodemailer from 'nodemailer'
-import smtpTransport from 'nodemailer-smtp-transport'
 
 let clientIsValid = false
 
-const transporter = nodemailer.createTransport(
-  smtpTransport({
-    host: "smtp.qq.com",
-    secure: true,
-    secureConnection: true, // use SSL
-    port: 465,
-    auth: {
-      user: config.EMAIL.account,
-      pass: config.EMAIL.password
-    }
-  })
-)
+const transporter = nodemailer.createTransport({
+  service: config.EMAIL.service,
+  secure: true,
+  secureConnection: true, // use SSL
+  port: 465,
+  auth: {
+    user: config.EMAIL.account,
+    pass: config.EMAIL.password
+  }
+})
 
 const verifyClient = () => {
   transporter.verify((error, success) => {
