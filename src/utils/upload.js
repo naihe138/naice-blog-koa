@@ -1,9 +1,9 @@
 
-import path from 'path'
-import fs from 'fs'
-import Busboy from 'busboy'
-import qiniu from 'qiniu'
-import myConfig from '../config'
+const path = require('path')
+const fs = require('fs')
+const Busboy = require('busboy')
+const qiniu = require('qiniu')
+const myConfig = require('../config')
 // 写入目录
 const mkdirsSync = dirname => {
   if (fs.existsSync(dirname)) {
@@ -26,7 +26,7 @@ function Rename (fileName) {
   return Math.random().toString(32).substr(4) + '.' + getSuffix(fileName)
 }
 // 删除文件
-export const removeTemFile = (path) => {
+const removeTemFile = (path) => {
   fs.unlink(path, (err) => {
     if (err) {
       throw err
@@ -34,7 +34,7 @@ export const removeTemFile = (path) => {
   })
 }
 // 上传到七牛
-export const upToQiniu = (filePath, key) => {
+const upToQiniu = (filePath, key) => {
   const accessKey = myConfig.QINIU.accessKey
   const secretKey = myConfig.QINIU.secretKey
   const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
@@ -63,7 +63,7 @@ export const upToQiniu = (filePath, key) => {
 }
 
 // 上传到本地服务器
-export const uploadFile = (ctx, options) => {
+const uploadFile = (ctx, options) => {
   const _emmiter = new Busboy({headers: ctx.req.headers})
   const fileType = options.fileType
   const filePath = path.join(options.path, fileType)
@@ -95,4 +95,10 @@ export const uploadFile = (ctx, options) => {
     })
     ctx.req.pipe(_emmiter)
   })
+}
+
+module.exports = {
+  removeTemFile,
+  upToQiniu,
+  uploadFile
 }

@@ -1,11 +1,11 @@
 'use strict'
-// 文章数据模型
 
-import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
+// 项目数据模型
+const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const projectSchema = new mongoose.Schema({
-	// 文章标题
+	// 项目标题
 	title: { type: String, required: true },
 	// 描述
 	descript: { type: String, required: true },
@@ -29,7 +29,4 @@ projectSchema.pre('findOneAndUpdate', function(next) {
 })
 
 // 文章模型
-const Project = mongoose.model('Project', projectSchema)
-
-// export
-export default Project
+module.exports = mongoose.model('Project', projectSchema)

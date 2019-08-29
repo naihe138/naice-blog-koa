@@ -1,8 +1,7 @@
 'use strict'
 
-const authIsVerified = require('../utils/auth');
-
-export default async (ctx, next) => {
+const authIsVerified = require('../utils/auth')
+const interceptor = async (ctx, next) => {
   // 拦截器
 	const allowedOrigins = ['https://blog.naice.me', 'https://blog.admin.naice.me', 'file://'];
 	const origin = ctx.request.headers.origin || '';
@@ -56,3 +55,5 @@ export default async (ctx, next) => {
 
 	await next();
 }
+
+module.exports = interceptor

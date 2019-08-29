@@ -1,6 +1,6 @@
-/* auth验证方法 */
-import config from '../config';
-import jwt from 'jsonwebtoken'
+'use strict'
+const config = require('../config')
+const jwt = require('jsonwebtoken')
 
 // 验证Auth
 const authToken = req => {

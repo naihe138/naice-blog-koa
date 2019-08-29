@@ -1,11 +1,11 @@
 'use strict'
 // 数据库模块
-import glob from 'glob'
-import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
-import { resolve } from 'path'
-import config	from '../config'
-import initAdmin from './initAdmin'
+const glob = require('glob')
+const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
+const { resolve } = require('path')
+const config = require('../config')
+const initAdmin = require('./initAdmin')
 
 // fs.readdirSync(models)
 //   .filter(file => ~file.search(/^[^\.].*js$/))
@@ -18,11 +18,11 @@ const debuger = process.env.NODE_ENV !== 'production'
 mongoose.Promise = global.Promise
 mongoose.set('debug', debuger)
 
-// 数据模型引入
+// 数据模型载入
 glob.sync(resolve(__dirname, '../models/*.js')).forEach(require)
 
 // 数据库
-export default function () {
+function connect() {
 	// 连接数据库
 	mongoose.connect(url)
 
@@ -44,3 +44,5 @@ export default function () {
 
 	return mongoose
 }
+
+module.exports = connect

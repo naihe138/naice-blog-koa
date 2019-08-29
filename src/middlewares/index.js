@@ -1,11 +1,9 @@
 'use strict'
 // 中间件集合
-import bodyParser from'koa-bodyparser' // post body 解析
-import helmet from 'koa-helmet' // 安全相关
-import cors from 'koa-cors'
-import Interceptor from './interceptor'
-
-// https://github.com/cnpm/koa-limit/blob/master/example.js
+const bodyParser =require('koa-bodyparser') // post body 解析
+const helmet =require('koa-helmet') // 安全相关
+const cors =require('koa-cors')
+const Interceptor =require('./interceptor')
 
 const middlewares = (app) => {
 	app.use(async (ctx, next) => {
@@ -17,9 +15,10 @@ const middlewares = (app) => {
 
 	// middleware
 	app.use(cors({
-		origin: true
+		// origin: true
+		origin: '*'
 	}))
-	app.use(Interceptor)
+	// app.use(Interceptor)
 	app.use(helmet())
 	app.use(bodyParser({
 		jsoinLimit: '10mb',
@@ -40,4 +39,4 @@ const middlewares = (app) => {
 	})
 } 
 
-export default middlewares
+module.exports = middlewares

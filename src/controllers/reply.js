@@ -1,33 +1,31 @@
 'use strict'
-import geoip from 'geoip-lite'
-import Reply from '../models/reply'
-import Comment from '../models/comment'
-/**
- * 添加评论回复
- * @param {*} opts 
- */
-export const putReply = async (ctx, reply) => {
+const geoip = require('geoip-lite')
+const Reply = require('../models/reply')
+const Comment = require('../models/comment')
+
+// 添加评论回复
+const putReply = async (ctx, reply) => {
 	// 获取ip地址以及物理地理地址
-	const ip = (ctx.req.headers['x-forwarded-for'] || 
-	ctx.req.headers['x-real-ip'] || 
-	ctx.req.connection.remoteAddress || 
-	ctx.req.socket.remoteAddress ||
-	ctx.req.connection.socket.remoteAddress ||
-	ctx.req.ip ||
-	ctx.req.ips[0]).replace('::ffff:', '');
+	const ip = (ctx.req.headers['x-forwarded-for'] ||
+		ctx.req.headers['x-real-ip'] ||
+		ctx.req.connection.remoteAddress ||
+		ctx.req.socket.remoteAddress ||
+		ctx.req.connection.socket.remoteAddress ||
+		ctx.req.ip ||
+		ctx.req.ips[0]).replace('::ffff:', '');
 	reply.ip = ip || '14.215.177.38'
 	reply.agent = ctx.headers['user-agent'] || reply.agent
 
 	const ip_location = geoip.lookup(reply.ip)
 
 	if (ip_location) {
-		reply.city = ip_location.city,
-		reply.range = ip_location.range,
+		reply.city = ip_location.city
+		reply.range = ip_location.range
 		reply.country = ip_location.country
 	}
 
 	reply.likes = 0
-	
+
 	// 发布评论回复
 	const res = await (new Reply(reply)).save()
 	let permalink = 'https://blog.naice.me'
@@ -35,38 +33,28 @@ export const putReply = async (ctx, reply) => {
 		permalink = `https://blog.naice.me/article/${reply.post_id}`
 	}
 	// 让原来评论数+1
-	let comment = await Comment.findOne({_id: reply.cid})
-  if (comment) {
+	let comment = await Comment.findOne({ _id: reply.cid })
+	if (comment) {
 		// 每次评论，reply 都增加一次
 		comment.reply += 1
 		await comment.save()
 	}
 	res.permalink = permalink
-  return res
+	return res
 }
 
-/**
- * 删除评论的回复
- * @param {评论id} _id 
- */
-export const delectReply = async (_id) => {
-    return await Reply.findByIdAndRemove(_id)
+// 删除评论的回复
+const delectReply = async (_id) => {
+	return await Reply.findByIdAndRemove(_id)
 }
 
-/**
- * 修改评论
- * @param {评论id} _id 
- * @param {修改参数} opt cid
- */
-export const editeReply = async (_id, opt) => {
-    return await Reply.findByIdAndUpdate(_id, opt)
+// 修改评论
+const editeReply = async (_id, opt) => {
+	return await Reply.findByIdAndUpdate(_id, opt)
 }
 
-/**
- * 喜欢回复
- * @param {回复id} _id 
- */
-export const likeReply = async (_id) => {
+// 喜欢回复
+const likeReply = async (_id) => {
 	let res = await Reply.findById(_id)
 	if (res) {
 		// 每次评论，reply 都增加一次
@@ -75,12 +63,8 @@ export const likeReply = async (_id) => {
 	}
 }
 
-
-/**
- * 根据评论id获取评论
- * @param {评论id} _id 
- */
-export const getReplyById = async (cid, opts = {}) => {
+// 根据评论id获取评论
+const getReplyById = async (cid, opts = {}) => {
 	let { sort = -1, current_page = 1, page_size = 20, keyword = '', post_id, state } = opts
 	let result = {}
 	sort = Number(sort)
@@ -140,12 +124,16 @@ export const getReplyById = async (cid, opts = {}) => {
 	return result
 }
 
+// 更新评论状态
+const changeReplyStatus = async (_id, state) => {
+	return await Reply.findByIdAndUpdate(_id, { state })
+}
 
-/**
- * 更新评论状态
- * @param {*} _id 
- * @param {*} opts 
- */
-export const changeReplyStatus = async (_id, state) => {
-   return await Reply.findByIdAndUpdate(_id, { state })
+module.exports = {
+	putReply,
+	delectReply,
+	editeReply,
+	likeReply,
+	getReplyById,
+	changeReplyStatus
 }

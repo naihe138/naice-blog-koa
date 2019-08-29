@@ -1,10 +1,7 @@
 'use strict'
-
 // 音乐数据模型
-import mongoose from 'mongoose'
-
+const mongoose = require('mongoose')
 const MusicSchema = new mongoose.Schema({
-
 	// 歌曲名称
 	title: { type: String },
 	// 歌星
@@ -29,7 +26,4 @@ MusicSchema.pre('findOneAndUpdate', function(next) {
 	next()
 })
 
-
-const Music = mongoose.model('Music', MusicSchema)
-
-export default Music
+module.exports = mongoose.model('Music', MusicSchema)
