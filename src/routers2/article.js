@@ -13,9 +13,7 @@ const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
 const AddParams = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
 
 function articleRoute (router) {
-  console.log(resolvePath('add'))
   router.put(resolvePath('add'), verifyParams(AddParams), async (ctx, next) => {
-    console.log(22, ctx.request.body)
     ctx.body = 'hello'
   })
 }
