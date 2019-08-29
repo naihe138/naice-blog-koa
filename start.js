@@ -1,17 +1,10 @@
 'use strict'
 
-const { resolve } = require('path')
-const r = path => resolve(__dirname, path)
+const Koa = require('koa')
+const app = new Koa()
 
-require('babel-core/register')({
-  'presets': [
-    'stage-3',
-    ["latest-node", { "target": "current" }]
-  ],
-  'plugins': [
-    'transform-decorators-legacy'
-  ]
-})
+app.use(async ctx => {
+  ctx.body = 'Hello World'
+});
 
-require('babel-polyfill')
-require('./server')
+app.listen(3000)

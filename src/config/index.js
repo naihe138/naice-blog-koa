@@ -44,7 +44,7 @@ const INFO = {
 	powered: ['Vue2', 'Nuxt.js', 'Node.js', 'MongoDB', 'koa', 'Nginx']
 }
 
-export default {
+module.exports = {
 	MONGODB,
 	QINIU,
 	User,
