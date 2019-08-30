@@ -1,6 +1,5 @@
 'use strict'
 
-
 const Koa = require('koa')
 const config = require('./config')
 const mongoConnect = require('./mongodb')

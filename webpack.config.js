@@ -1,27 +1,45 @@
+const path = require('path')
+const webpack = require('webpack')
+const externalsDep = require('externals-dependencies')
+const TerserPlugin = require('terser-webpack-plugin')
 
-const webpack = require('webpack'); // 用于访问内置插件
-const path = require('path');
-
-const config = {
-  entry: './server.js',
+module.exports = {
+  mode: 'production',
+  entry: {
+    app: './start.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'server.bundle.js'
+    filename: '[name].js'
+  },
+  resolve: {
+    extensions: ['.js']
+  },
+  target: 'node',
+  externals: [externalsDep()],
+  context: __dirname,
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: false,
+        parallel: true,
+        sourceMap: false
+      }),
+    ],
   },
   module: {
     rules: [
-		{
-			test: /\.js$/,
-			exclude: /(node_modules|bower_components)/,
-			use: {
-				loader: 'babel-loader?cacheDirectory=true'
-			}
-		}
+      {
+        test: /\.js/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      }
     ]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
   ]
-};
-
-module.exports = config;
+}

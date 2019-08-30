@@ -10,7 +10,6 @@ function tags (router) {
 	// 新增标签
 	const ADD_TAG_PARAMS = ['name']
 	const ADD_TAG = async (ctx) => {
-		console.log('aaa')
 		const { name, descript = ''} = ctx.request.body
 		try {
 			const tag = await putTag({name, descript})
@@ -19,7 +18,6 @@ function tags (router) {
 			resError({ ctx, message: '添加标签失败', err: err.message})
 		}
 	}
-	console.log(111, resolvePath('add'))
 	router.put(resolvePath('add'), verifyParams(ADD_TAG_PARAMS), ADD_TAG)
 
 	// 获取所有标签
