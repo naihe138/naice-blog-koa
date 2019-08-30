@@ -4,10 +4,9 @@
 const Koa = require('koa')
 const config = require('./config')
 const mongoConnect = require('./mongodb')
-const { resolve } = require('path')
 // const redis = require('./redis');
 const middlewares = require('./middlewares')
-// const Route = require('./decorator/router')
+const router = require('./routers2')
 
 const app = new Koa()
 // 链接数据库
@@ -16,10 +15,8 @@ mongoConnect()
 
 // 使用各种中间件
 middlewares(app)
-
-// const router = new Route(app, resolve(__dirname, './routers'))
-// // 初始化路由
-// router.init()
+app.use(router.routes())
+app.use(router.allowedMethods())
 
 // start server
 app.listen(config.APP.PORT, () => {
