@@ -6,11 +6,11 @@ const TerserPlugin = require('terser-webpack-plugin')
 module.exports = {
   mode: 'production',
   entry: {
-    app: './start.js'
+    app: './src/app.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    path: path.resolve(__dirname),
+    filename: 'start.js'
   },
   resolve: {
     extensions: ['.js']
