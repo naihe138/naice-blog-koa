@@ -1,6 +1,6 @@
 'use strict'
-const geoip = rquire('geoip-lite')
-const Hero = rquire('../models/hero')
+const geoip = require('geoip-lite')
+const Hero = require('../models/hero')
 
 // 添加留言
 const putHero = async (ctx, hero) => {

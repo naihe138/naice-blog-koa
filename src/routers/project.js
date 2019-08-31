@@ -1,8 +1,8 @@
 'use strict'
 // 项目路由
-const config = requir('../config')
-const { putProject, delectProject, editeProject, getProjectById, getProjects } = requir('../controllers/project')
-const {resError, resSuccess} = requir('../utils/resHandle')
+const config = require('../config')
+const { putProject, delectProject, editeProject, getProjectById, getProjects } = require('../controllers/project')
+const {resError, resSuccess} = require('../utils/resHandle')
 const verifyParams = require('../middlewares/verify-params')
 const BASE_PATH = `${config.APP.ROOT_PATH}/project/`
 const resolvePath = p => `${BASE_PATH}${p}`
