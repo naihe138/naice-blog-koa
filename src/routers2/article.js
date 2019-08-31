@@ -13,7 +13,7 @@ const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
 
 function articleRoute (router) {
   const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
-  const ADD_ARTICLE = async (ctx, next) => {
+  async function ADD_ARTICLE (ctx, next) {
     ctx.body = 'hello'
     const opts = ctx.request.body
     let article = await putArticle(opts)
@@ -30,7 +30,7 @@ function articleRoute (router) {
   router.put(resolvePath('add'), verifyParams(ADD_ARTICLE_PARAMS), ADD_ARTICLE)
 
   // 获取分页文章
-  const GET_ARTICLE = async (ctx, next) => {
+  async function GET_ARTICLE (ctx, next) {
     const opts = ctx.query || {}
     const res = await getArticles(opts)
     resSuccess({ ctx, message: '查询文章成功', result: res})
@@ -38,7 +38,7 @@ function articleRoute (router) {
   router.get(resolvePath('get'), GET_ARTICLE)
 
   // 根据id获取文章
-  const GET_ARTICLE_BY_ID = async (ctx, next) => {
+  async function GET_ARTICLE_BY_ID (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -54,7 +54,7 @@ function articleRoute (router) {
   router.get(resolvePath('get/:id'), GET_ARTICLE_BY_ID)
 
   // 删除文章
-  const REMOVE_ARTICLE = async (ctx, next) => {
+  async function REMOVE_ARTICLE (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -70,7 +70,7 @@ function articleRoute (router) {
   router.del(resolvePath('delect/:id'), REMOVE_ARTICLE)
   
   // 编辑文章
-  const EDITE_ARTICLE = async (ctx, next) => {
+  async function EDITE_ARTICLE (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -86,14 +86,14 @@ function articleRoute (router) {
   router.del(resolvePath('edite/:id'), EDITE_ARTICLE)
   
   // 获取文章集合
-  const GET_ALL_ARTICLE = async (ctx, next) => {
+  async function GET_ALL_ARTICLE (ctx, next) {
     const res = await getAllArticles()
     resSuccess({ ctx, message: '获取文章成功', result: res})
   }
   router.get(resolvePath('getAll'), GET_ALL_ARTICLE)
 
   // 改变文章状态
-  const CHANGE_ARTICLE_STATUS = async (ctx, next) => {
+  async function CHANGE_ARTICLE_STATUS (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {

@@ -1,17 +1,16 @@
 'use strict'
+// 音乐路由
+const config = require('../config')
+const { putMusic, delectMusic, editeMusic, getMusic, upload } = require('../controllers/music')
+const {resError, resSuccess} = require('../utils/resHandle')
+const verifyParams = require('../middlewares/verify-params')
+const BASE_PATH = `${config.APP.ROOT_PATH}/music/`
+const resolvePath = p => `${BASE_PATH}${p}`
 
-import { controller, put, del, post, get, required } from '../decorator/router'
-import config from '../config'
-import { putMusic, delectMusic, editeMusic, getMusic, upload } from '../controllers/music'
-
-import {resError, resSuccess} from '../utils/resHandle'
-
-@controller(`${config.APP.ROOT_PATH}/music`)
-export class MusicController {
+function music (router) {
 	// 添加音乐
-	@put('add')
-	@required({body: ['title', 'name', 'url']})
-	async addMusic (ctx, next) {
+	const ADD_MUSIC_PARAMS = ['title', 'name', 'url']
+	async function ADD_MUSIC (ctx, next) {
 		let opts = ctx.request.body
 		try {
 			await putMusic(ctx, opts)
@@ -20,9 +19,10 @@ export class MusicController {
 			resError({ ctx, message: '添加音乐失败', err})
 		}
 	}
+	router.put(resolvePath('add'), verifyParams(ADD_MUSIC_PARAMS), ADD_MUSIC)
+
 	// 获取音乐
-	@get('get')
-	async toGetMusic (ctx, next) {
+	async function GET_MUSIC (ctx, next) {
 		try {
 			const res = await getMusic(ctx.query)
 			resSuccess({ ctx, message: '获取音乐成功', result: res})
@@ -30,29 +30,31 @@ export class MusicController {
 			resError({ ctx, message: '获取音乐失败', err})
 		}
 	}
-	// 删除评论
-	@del('delect/:id')
-	async removeMusic (ctx, next) {
+	router.get(resolvePath('get'), GET_MUSIC)
+	
+	// 删除音乐
+	async function REMOVE_MOSIC (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
-				const res = await delectMusic(id)
+				await delectMusic(id)
 				resSuccess({ ctx, message: '删除音乐成功'})
-			} catch(err) {
+			} catch(err) {Í
 				resError({ ctx, message: '删除音乐失败', err})
 			}
 		} else {
 			resError({ ctx, message: '删除音乐失败', err: '缺少参数id'})
 		}
 	}
-	// 编辑评论
-	@post('edite/:id')
-	async toEditeReply (ctx, next) {
+	router.del(resolvePath('delect/:id'), REMOVE_MOSIC)
+
+	// 编辑音乐
+	async function EDITE_MUSIC (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
 				const res = await editeMusic(id, ctx.request.body)
-				resSuccess({ ctx, message: '修改音乐成功'})
+				resSuccess({ ctx, result: res, message: '修改音乐成功'})
 			} catch(err) {
 				resError({ ctx, message: '修改音乐失败', err: err})
 			}
@@ -60,9 +62,10 @@ export class MusicController {
 			resError({ ctx, message: '修改音乐失败', err: '地址缺少参数id'})
 		}
 	}
+	router.post(resolvePath('edite/:id'), EDITE_MUSIC)
+
 	// 上传
-	@post('upload')
-	async toUpload (ctx, next) {
+	async function UPLOAD (ctx, next) {
 		try {
 			const res = await upload(ctx)
 			resSuccess({ ctx, message: '上传成功', result: `http://img.store.naice.me/${res.key}`})
@@ -70,4 +73,7 @@ export class MusicController {
 			resError({ ctx, message: '上传失败', err: err})
 		}
 	}
+	router.post(resolvePath('upload'), UPLOAD)
 }
+
+module.exports = music

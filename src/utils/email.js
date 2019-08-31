@@ -1,7 +1,7 @@
 /* email */
 
-import config from '../config'
-import nodemailer from 'nodemailer'
+const config = require('../config')
+const nodemailer = require('nodemailer')
 
 let clientIsValid = false
 
@@ -46,6 +46,8 @@ const sendMail = mailOptions => {
   })
 }
 
-exports.sendMail = sendMail
-exports.nodemailer = nodemailer
-exports.transporter = transporter
+module.exports = {
+  sendMail,
+  nodemailer,
+  transporter
+}
