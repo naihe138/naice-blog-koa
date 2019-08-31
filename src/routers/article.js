@@ -1,44 +1,44 @@
 'use strict'
 
 // 文章路由
-import request from 'request'
-import { controller, put, del, post, get, required } from '../decorator/router'
-import config from '../config'
-import { putArticle, delectArticle, 
-          editeArticle, getArticleById, 
-          getArticles, changeArticleStatus, 
-          getAllArticles, likeArticle } from '../controllers/article'
+// const request = require('request')
+const config = require('../config')
+const { putArticle, delectArticle, editeArticle, getArticleById,
+  getArticles, changeArticleStatus, getAllArticles, likeArticle } = require('../controllers/article')
 
-import {resError, resSuccess} from '../utils/resHandle'
+const {resError, resSuccess} = require('../utils/resHandle')
+const verifyParams = require('../middlewares/verify-params')
+const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
 
-@controller(`${config.APP.ROOT_PATH}/article`)
-export class articleController {
-  // 添加文章
-  @put('add')
-  @required({body: ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']})
-  async addArticle (ctx, next) {
+
+function articleRoute (router) {
+  const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
+  async function ADD_ARTICLE (ctx, next) {
+    ctx.body = 'hello'
     const opts = ctx.request.body
     let article = await putArticle(opts)
     // 百度 seo push
-    request.post({
-      url: `http://data.zz.baidu.com/urls?site=${config.BAIDU.site}&token=${config.BAIDU.token}`, 
-      headers: { 'Content-Type': 'text/plain' },
-      body: `${config.INFO.site}/article/${article._id}`
-    }, (error, response, body) => {
-      console.log('推送结果：', body)
-    })
+    // request.post({
+    //   url: `http://data.zz.baidu.com/urls?site=${config.BAIDU.site}&token=${config.BAIDU.token}`, 
+    //   headers: { 'Content-Type': 'text/plain' },
+    //   body: `${config.INFO.site}/article/${article._id}`
+    // }, (error, response, body) => {
+    //   console.log('推送结果：', body)
+    // })
     resSuccess({ ctx, message: '添加文章成功'})
   }
+  router.put(resolvePath('add'), verifyParams(ADD_ARTICLE_PARAMS), ADD_ARTICLE)
+
   // 获取分页文章
-  @get('get')
-  async getArticle (ctx, next) {
+  async function GET_ARTICLE (ctx, next) {
     const opts = ctx.query || {}
     const res = await getArticles(opts)
     resSuccess({ ctx, message: '查询文章成功', result: res})
   }
+  router.get(resolvePath('get'), GET_ARTICLE)
+
   // 根据id获取文章
-  @get('get/:id')
-  async getArticleId (ctx, next) {
+  async function GET_ARTICLE_BY_ID (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -51,9 +51,10 @@ export class articleController {
       resError({ ctx, message: '查询文章失败', err: '缺少参数id'})
     }
   }
+  router.get(resolvePath('get/:id'), GET_ARTICLE_BY_ID)
+
   // 删除文章
-  @del('delect/:id')
-  async removeArticle (ctx, next) {
+  async function REMOVE_ARTICLE (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -66,9 +67,10 @@ export class articleController {
       resError({ ctx, message: '删除文章失败', err: '缺少参数id'})
     }
   }
+  router.del(resolvePath('delect/:id'), REMOVE_ARTICLE)
+  
   // 编辑文章
-  @post('edite/:id')
-  async toEditeArticle (ctx, next) {
+  async function EDITE_ARTICLE (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -81,15 +83,17 @@ export class articleController {
       resError({ ctx, message: '修改文章失败', err: '地址缺少参数id'})
     }
   }
+  router.del(resolvePath('edite/:id'), EDITE_ARTICLE)
+  
   // 获取文章集合
-  @get('getAll')
-  async getAllArticle (ctx, next) {
+  async function GET_ALL_ARTICLE (ctx, next) {
     const res = await getAllArticles()
     resSuccess({ ctx, message: '获取文章成功', result: res})
   }
+  router.get(resolvePath('getAll'), GET_ALL_ARTICLE)
+
   // 改变文章状态
-  @post('status/:id')
-  async toChangeArticle (ctx, next) {
+  async function CHANGE_ARTICLE_STATUS (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -102,13 +106,14 @@ export class articleController {
       resError({ ctx, message: '修改文章状态失败', err: '地址缺少参数id'})
     }
   }
+  router.post(resolvePath('status/:id'), CHANGE_ARTICLE_STATUS)
+
   // 喜欢文章
-  @post('like/:id')
-  async toChangeArticle (ctx, next) {
+  async function LICK_ARTICLE (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
-        const res = await likeArticle(id)
+        await likeArticle(id)
         resSuccess({ ctx, message: '修改成功'})
       } catch(err) {
         resError({ ctx, message: '修改失败', err: err})
@@ -117,4 +122,7 @@ export class articleController {
       resError({ ctx, message: '修改失败', err: '地址缺少参数id'})
     }
   }
+  router.post(resolvePath('like/:id'), LICK_ARTICLE)
 }
+
+module.exports = articleRoute

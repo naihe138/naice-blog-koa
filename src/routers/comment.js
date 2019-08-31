@@ -1,14 +1,14 @@
 'use strict'
 
-import xss from 'xss'
+const xss = require('xss')
 // 评论路由
-import { controller, put, del, post, get, required } from '../decorator/router'
-import config from '../config'
-import { putComment, delectComment, 
-				editeComment, getComment, 
-        changeCommentStates, likeComment } from '../controllers/comment'
-import {resError, resSuccess} from '../utils/resHandle'
-import { sendMail } from '../utils/email'
+const config = require('../config')
+const { putComment, delectComment, editeComment, getComment, likeComment } = require('../controllers/comment')
+const {resError, resSuccess} = require('../utils/resHandle')
+const { sendMail } = require('../utils/email')
+const verifyParams = require('../middlewares/verify-params')
+const BASE_PATH = `${config.APP.ROOT_PATH}/comment/`
+const resolvePath = p => `${BASE_PATH}${p}`
 
 // 邮件通知网站主及目标对象
 const sendMailToAdminAndTargetUser = (comment) => {
@@ -17,15 +17,13 @@ const sendMailToAdminAndTargetUser = (comment) => {
 		subject: '博客有新的留言',
 		text: `来自 ${comment.author.name} 的留言：${comment.content}`,
 		html: `<p> 来自 ${comment.author.name} 的留言：${comment.content}</p><br><a href="${comment.permalink}" target="_blank">[ 点击查看 ]</a>`
-	});
+	})
 }
 
-@controller(`${config.APP.ROOT_PATH}/comment`)
-export class commentController {
+function comments (router) {
 	// 添加评论
-	@put('add')
-	@required({body: ['post_id', 'content', 'author']})
-	async addComment (ctx, next) {
+	const ADD_COMMENT_PARAMS = ['post_id', 'content', 'author']
+	async function ADD_COMMENT (ctx, next) {
 		let opts = ctx.request.body
 		opts.content= xss(opts.content);
 		try {
@@ -36,9 +34,10 @@ export class commentController {
 			resError({ ctx, message: '添加评论失败', err})
 		}
 	}
+	router.put(resolvePath('add'), verifyParams(ADD_COMMENT_PARAMS), ADD_COMMENT)
+
 	// 获取评论
-	@get('get')
-	async getCommentId (ctx, next) {
+	async function GET_COMMENTS (ctx, next) {
 		try {
 			const res = await getComment(ctx.query)
 			resSuccess({ ctx, message: '获取评论成功', result: res})
@@ -46,13 +45,14 @@ export class commentController {
 			resError({ ctx, message: '获取评论失败', err})
 		}
 	}
+	router.get(resolvePath('get'), GET_COMMENTS)
+
 	// 删除评论
-	@del('delect/:id')
-	async removeComment (ctx, next) {
+	async function REMOVE_COMMENT (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
-				const res = await delectComment(id)
+				await delectComment(id)
 				resSuccess({ ctx, message: '删除评论成功'})
 			} catch(err) {
 				resError({ ctx, message: '删除评论失败', err: err})
@@ -61,13 +61,14 @@ export class commentController {
 			resError({ ctx, message: '删除评论失败', err: '缺少参数id'})
 		}
 	}
+	router.del(resolvePath('delect/:id'), REMOVE_COMMENT)
+
 	// 编辑评论
-	@post('edite/:id')
-	async toEditeComment (ctx, next) {
+	async function EDIT_COMMENT (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
-				const res = await editeComment(id, ctx.request.body)
+				await editeComment(id, ctx.request.body)
 				resSuccess({ ctx, message: '修改评论成功'})
 			} catch(err) {
 				resError({ ctx, message: '修改评论失败', err: err})
@@ -76,9 +77,10 @@ export class commentController {
 			resError({ ctx, message: '修改评论失败', err: '地址缺少参数id'})
 		}
 	}
+	router.post(resolvePath('edite/:id'), EDIT_COMMENT)
+
 	// 喜欢评论
-	@post('like/:id')
-	async toLikeComment (ctx, next) {
+	async function LIKE_COMMENT (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
@@ -91,4 +93,7 @@ export class commentController {
 			resError({ ctx, message: '修改失败', err: '地址缺少参数id'})
 		}
 	}
+	router.post(resolvePath('like/:id'), LIKE_COMMENT)
 }
+
+module.exports = comments

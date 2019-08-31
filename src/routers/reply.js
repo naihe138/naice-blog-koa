@@ -1,13 +1,13 @@
 'use strict'
-import xss from 'xss'
-// 回复路由
-import { controller, put, del, post, get, required } from '../decorator/router'
-import config from '../config'
-import { putReply, delectReply, 
-				editeReply, getReplyById, 
-        changeReplyStatus, likeReply } from '../controllers/reply'
-import {resError, resSuccess} from '../utils/resHandle'
-import { sendMail } from '../utils/email'
+// 回复评论路由
+const xss = require('xss')
+const config = require('../config')
+const { putReply, delectReply, editeReply, getReplyById, changeReplyStatus, likeReply } = require('../controllers/reply')
+const {resError, resSuccess} = require('../utils/resHandle')
+const { sendMail } = require('../utils/email')
+const verifyParams = require('../middlewares/verify-params')
+const BASE_PATH = `${config.APP.ROOT_PATH}/reply/`
+const resolvePath = p => `${BASE_PATH}${p}`
 
 // 邮件通知网站主及目标对象
 const sendMailToAdminAndTargetUser = (reply) => {
@@ -25,12 +25,10 @@ const sendMailToAdminAndTargetUser = (reply) => {
 	})
 }
 
-@controller(`${config.APP.ROOT_PATH}/reply`)
-export class commentController {
+function reply(router) {
 	// 添加回复
-	@put('add')
-	@required({body: ['post_id', 'cid', 'content', 'from']})
-	async addReply (ctx, next) {
+	const ADD_REPLY_PARAMS = ['post_id', 'cid', 'content', 'from']
+	async function ADD_REPLY (ctx, next) {
 		let opts = ctx.request.body
 		opts.content = xss(opts.content)
 		try {
@@ -41,10 +39,10 @@ export class commentController {
 			resError({ ctx, message: '添加评论失败', err})
 		}
 	}
+	router.put(resolvePath('add'), verifyParams(ADD_REPLY_PARAMS), ADD_REPLY)
 
 	// 根据评论id获取回复
-	@get('get/:id')
-	async getReplyId (ctx, next) {
+	async function GET_REPLY_BY_COMMENT_ID (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
@@ -57,9 +55,11 @@ export class commentController {
 			resError({ ctx, message: '获取回复失败', err: '缺少参数id'})
 		}
 	}
+	router.get(resolvePath('get/:id'), GET_REPLY_BY_COMMENT_ID)
+
 	// 删除回复
-	@del('delect/:id')
-	async removeReply (ctx, next) {
+	// @del('delect/:id')
+	async function REMOVE_REPLY (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
@@ -72,14 +72,14 @@ export class commentController {
 			resError({ ctx, message: '删除失败', err: '缺少参数id'})
 		}
 	}
+	router.del(resolvePath('delect/:id'), REMOVE_REPLY)
+
 	// 编辑回复
-	@post('edite/:id')
-	@required({body: ['id']})
-	async editeRepy (ctx, next) {
+	async function EDITE_REPLY (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
-				const res = await editeReply(ctx.request.body)
+				await editeReply(id, ctx.request.body)
 				resSuccess({ ctx, message: '修改回复成功'})
 			} catch(err) {
 				resError({ ctx, message: '修改回复失败', err: err})
@@ -88,9 +88,10 @@ export class commentController {
 			resError({ ctx, message: '修改回复失败', err: '地址缺少参数id'})
 		}
 	}
+	router.post(resolvePath('edite/:id'), EDITE_REPLY)
+
 	// 改变评论状态
-	@post('status/:id')
-	async changeReplyState (ctx, next) {
+	async function CHANGE_REPLY_STATUS (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
@@ -103,9 +104,12 @@ export class commentController {
 			resError({ ctx, message: '修改评回复态失败', err: '地址缺少参数id'})
 		}
 	}
-	// 改变评论状态
-	@post('like/:id')
-	async toLikeReply (ctx, next) {
+	router.post(resolvePath('status/:id'), CHANGE_REPLY_STATUS)
+
+
+	// 喜欢回复
+	// @post('like/:id')
+	async function LICK_REPLAY (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
 			try {
@@ -118,4 +122,7 @@ export class commentController {
 			resError({ ctx, message: '修改失败', err: '地址缺少参数id'})
 		}
 	}
+	router.post(resolvePath('like/:id'), LICK_REPLAY)
 }
+
+module.exports = reply

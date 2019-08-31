@@ -1,11 +1,10 @@
 'use strict'
-
 const Koa = require('koa')
 const config = require('./config')
 const mongoConnect = require('./mongodb')
 // const redis = require('./redis');
 const middlewares = require('./middlewares')
-const router = require('./routers2')
+const router = require('./routers')
 
 const app = new Koa()
 // 链接数据库

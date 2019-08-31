@@ -1,34 +1,32 @@
 'use strict'
-
 // 项目路由
-import { controller, put, del, post, get, required } from '../decorator/router'
-import config from '../config'
-import { putProject, delectProject, 
-          editeProject, getProjectById, 
-          getProjects } from '../controllers/project'
+const config = requir('../config')
+const { putProject, delectProject, editeProject, getProjectById, getProjects } = requir('../controllers/project')
+const {resError, resSuccess} = requir('../utils/resHandle')
+const verifyParams = require('../middlewares/verify-params')
+const BASE_PATH = `${config.APP.ROOT_PATH}/project/`
+const resolvePath = p => `${BASE_PATH}${p}`
 
-import {resError, resSuccess} from '../utils/resHandle'
-
-@controller(`${config.APP.ROOT_PATH}/project`)
-export class articleController {
+function project (router) {
   // 添加项目
-  @put('add')
-  @required({body: ['title', 'icon', 'view', 'github']})
-  async addProject (ctx, next) {
+  const ADD_PROJECT_PARAMS = ['title', 'icon', 'view', 'github']
+  async function ADD_PROJECT (ctx, next) {
     const opts = ctx.request.body
-    let article = await putProject(opts)
+    await putProject(opts)
     resSuccess({ ctx, message: '添加项目成功'})
   }
+  router.put(resolvePath('add'), verifyParams(ADD_PROJECT_PARAMS), ADD_PROJECT)
+
   // 获取分页项目
-  @get('get')
-  async getProject (ctx, next) {
+  async function GET_PROJECT (ctx, next) {
     const opts = ctx.query || {}
     const res = await getProjects(opts)
     resSuccess({ ctx, message: '查询项目成功', result: res})
   }
+  router.get(resolvePath('get'), GET_PROJECT)
+
   // 根据id获取项目
-  @get('get/:id')
-  async getProjectId (ctx, next) {
+  async function GET_PROJECT_BY_ID (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -41,9 +39,10 @@ export class articleController {
       resError({ ctx, message: '查询项目失败', err: '缺少参数id'})
     }
   }
+  router.get(resolvePath('get/id'), GET_PROJECT_BY_ID)
+
   // 删除项目
-  @del('delect/:id')
-  async removeProject (ctx, next) {
+  async function REMOVE_PROJECT (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -56,9 +55,10 @@ export class articleController {
       resError({ ctx, message: '删除项目失败', err: '缺少参数id'})
     }
   }
+  router.del(resolvePath('delect/:id'), REMOVE_PROJECT)
+
   // 编辑项目
-  @post('edite/:id')
-  async toEditeProject (ctx, next) {
+  async function EDITE_PROJECT (ctx, next) {
     const { id } = ctx.params
     if (id) {
       try {
@@ -71,4 +71,7 @@ export class articleController {
       resError({ ctx, message: '修改项目失败', err: '地址缺少参数id'})
     }
   }
+  router.post(resolvePath('edite/:id'), EDITE_PROJECT)
 }
+
+module.exports = project
