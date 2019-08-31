@@ -58,7 +58,6 @@ function reply(router) {
 	router.get(resolvePath('get/:id'), GET_REPLY_BY_COMMENT_ID)
 
 	// 删除回复
-	// @del('delect/:id')
 	async function REMOVE_REPLY (ctx, next) {
 		const { id } = ctx.params
 		if (id) {
@@ -108,7 +107,6 @@ function reply(router) {
 
 
 	// 喜欢回复
-	// @post('like/:id')
 	async function LICK_REPLAY (ctx, next) {
 		const { id } = ctx.params
 		if (id) {

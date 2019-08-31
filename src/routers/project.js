@@ -9,7 +9,7 @@ const resolvePath = p => `${BASE_PATH}${p}`
 
 function project (router) {
   // 添加项目
-  const ADD_PROJECT_PARAMS = ['title', 'icon', 'view', 'github']
+  const ADD_PROJECT_PARAMS = ['title', 'icon', 'view', 'github', 'descript']
   async function ADD_PROJECT (ctx, next) {
     const opts = ctx.request.body
     await putProject(opts)
@@ -39,7 +39,7 @@ function project (router) {
       resError({ ctx, message: '查询项目失败', err: '缺少参数id'})
     }
   }
-  router.get(resolvePath('get/id'), GET_PROJECT_BY_ID)
+  router.get(resolvePath('get/:id'), GET_PROJECT_BY_ID)
 
   // 删除项目
   async function REMOVE_PROJECT (ctx, next) {

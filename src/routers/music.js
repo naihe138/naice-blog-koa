@@ -9,7 +9,7 @@ const resolvePath = p => `${BASE_PATH}${p}`
 
 function music (router) {
 	// 添加音乐
-	const ADD_MUSIC_PARAMS = ['title', 'name', 'url']
+	const ADD_MUSIC_PARAMS = ['title', 'name', 'url', 'lyrics']
 	async function ADD_MUSIC (ctx, next) {
 		let opts = ctx.request.body
 		try {
@@ -53,8 +53,8 @@ function music (router) {
 		const { id } = ctx.params
 		if (id) {
 			try {
-				const res = await editeMusic(id, ctx.request.body)
-				resSuccess({ ctx, result: res, message: '修改音乐成功'})
+				await editeMusic(id, ctx.request.body)
+				resSuccess({ ctx, message: '修改音乐成功'})
 			} catch(err) {
 				resError({ ctx, message: '修改音乐失败', err: err})
 			}

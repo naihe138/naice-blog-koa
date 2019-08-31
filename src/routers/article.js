@@ -12,9 +12,8 @@ const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
 
 
 function articleRoute (router) {
-  const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
+  const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', '"editContent"', 'keyword', 'descript']
   async function ADD_ARTICLE (ctx, next) {
-    ctx.body = 'hello'
     const opts = ctx.request.body
     let article = await putArticle(opts)
     // 百度 seo push
@@ -83,7 +82,7 @@ function articleRoute (router) {
       resError({ ctx, message: '修改文章失败', err: '地址缺少参数id'})
     }
   }
-  router.del(resolvePath('edite/:id'), EDITE_ARTICLE)
+  router.post(resolvePath('edite/:id'), EDITE_ARTICLE)
   
   // 获取文章集合
   async function GET_ALL_ARTICLE (ctx, next) {

@@ -2,7 +2,7 @@
 
 const MONGODB = {
 	uri: 'mongodb://127.0.0.1:27017/blogapi',
-	prouri: 'mongodb://xxxxx@xxxxx/blogapi'
+	prouri: 'mongodb://127.0.0.1:27017/blogapi'
 }
 
 const QINIU = {
@@ -21,8 +21,8 @@ const User = {
 
 const EMAIL = {
 	service: 'QQ',
-	account: 'xxxxx@xx.com',
-	password: 'xxxx' // IMAP/SMTP授权码，需要从qq邮箱获取
+	account: '370215230@qq.com',
+	password: 'xxxxxxx' // IMAP/SMTP授权码，需要从qq邮箱获取
 }
 
 const BAIDU = {

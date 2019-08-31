@@ -21,9 +21,9 @@ const putComment = async (ctx, comment) => {
   const ip_location = geoip.lookup(comment.ip)
 
   if (ip_location) {
-    comment.city = ip_location.city,
-      comment.range = ip_location.range,
-      comment.country = ip_location.country
+    comment.city = ip_location.city
+    comment.range = ip_location.range
+    comment.country = ip_location.country
   }
 
   let permalink = 'https://blog.naice.me/about'

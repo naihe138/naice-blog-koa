@@ -15,10 +15,9 @@ const middlewares = (app) => {
 
 	// middleware
 	app.use(cors({
-		// origin: true
-		origin: '*'
+		origin: true
 	}))
-	// app.use(Interceptor)
+	app.use(Interceptor)
 	app.use(helmet())
 	app.use(bodyParser({
 		jsoinLimit: '10mb',
