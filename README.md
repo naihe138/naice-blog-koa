@@ -4,6 +4,21 @@
 
 博客后台：[node-koa](https://github.com/naihe138/naice-blog-koa)
 
+### 克隆项目
+
+`git clone git@github.com:naihe138/naice-blog-koa.git`
+
+### 安装
+
+`npm install `
+
+### 运行
+
+`node ./src/app.js`
+
+### 打包
+
+`npm run build`
 
 ### 功能
 
@@ -53,7 +68,5 @@
 + react-native
 + ....
 
-
-这里不涉及技术讲解。因为太多了（所以是个水贴~~），大佬们轻喷~~~~
 
 如在浏览中遇到任何的bug，请留言我，我会第一时间修复，就此先谢谢
