@@ -3,10 +3,10 @@
 // 评论回复数据模型
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate')
-const autoIncrement = require('mongoose-auto-increment')
+// const autoIncrement = require('mongoose-auto-increment')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection)
+// autoIncrement.initialize(mongoose.connection)
 // 标签模型
 const replySchema = new mongoose.Schema({
 	// 评论所在的文章_id
@@ -53,14 +53,14 @@ const replySchema = new mongoose.Schema({
 	update_at: { type: Date }
 })
 
-// 翻页 + 自增ID插件配置
+// 翻页
 replySchema.plugin(mongoosePaginate)
-replySchema.plugin(autoIncrement.plugin, {
-	model: 'Reply',
-	field: 'id',
-	startAt: 1,
-	incrementBy: 1
-})
+// replySchema.plugin(autoIncrement.plugin, {
+// 	model: 'Reply',
+// 	field: 'id',
+// 	startAt: 1,
+// 	incrementBy: 1
+// })
 
 // 时间更新
 replySchema.pre('findOneAndUpdate', function(next) {
