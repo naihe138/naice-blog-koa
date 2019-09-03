@@ -24,6 +24,9 @@ const putComment = async (ctx, comment) => {
     comment.city = ip_location.city
     comment.range = ip_location.range
     comment.country = ip_location.country
+    if (Array.isArray(comment.range)) {
+      comment.range = comment.range.join(',')
+    }
   }
 
   let permalink = 'https://blog.naice.me/about'

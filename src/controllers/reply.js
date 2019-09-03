@@ -22,6 +22,9 @@ const putReply = async (ctx, reply) => {
 		reply.city = ip_location.city
 		reply.range = ip_location.range
 		reply.country = ip_location.country
+		if (Array.isArray(reply.range)) {
+      reply.range = reply.range.join(',')
+    }
 	}
 
 	reply.likes = 0

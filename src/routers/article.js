@@ -16,7 +16,7 @@ function articleRoute (router) {
   async function ADD_ARTICLE (ctx, next) {
     const opts = ctx.request.body
     let article = await putArticle(opts)
-    // 百度 seo push
+    // 百度推送 seo push
     // request.post({
     //   url: `http://data.zz.baidu.com/urls?site=${config.BAIDU.site}&token=${config.BAIDU.token}`, 
     //   headers: { 'Content-Type': 'text/plain' },
