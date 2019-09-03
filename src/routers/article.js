@@ -12,7 +12,7 @@ const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
 
 
 function articleRoute (router) {
-  const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', '"editContent"', 'keyword', 'descript']
+  const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
   async function ADD_ARTICLE (ctx, next) {
     const opts = ctx.request.body
     let article = await putArticle(opts)
