@@ -36,7 +36,7 @@ function articleRoute (router) {
   }
   router.get(resolvePath('get'), GET_ARTICLE)
 
-  // 根据id获取文章
+  // 根据id获取文章1
   async function GET_ARTICLE_BY_ID (ctx, next) {
     const { id } = ctx.params
     if (id) {
