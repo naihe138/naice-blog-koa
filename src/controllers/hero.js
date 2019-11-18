@@ -21,6 +21,9 @@ const putHero = async (ctx, hero) => {
 		hero.city = ip_location.city
 		hero.range = ip_location.range
 		hero.country = ip_location.country
+		if (Array.isArray(hero.range)) {
+      hero.range = hero.range.join(',')
+    }
 	}
 
 	return await (new Hero(hero)).save()

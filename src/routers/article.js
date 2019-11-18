@@ -16,7 +16,7 @@ function articleRoute (router) {
   async function ADD_ARTICLE (ctx, next) {
     const opts = ctx.request.body
     let article = await putArticle(opts)
-    // 百度 seo push
+    // 百度推送 seo push
     // request.post({
     //   url: `http://data.zz.baidu.com/urls?site=${config.BAIDU.site}&token=${config.BAIDU.token}`, 
     //   headers: { 'Content-Type': 'text/plain' },
@@ -36,7 +36,7 @@ function articleRoute (router) {
   }
   router.get(resolvePath('get'), GET_ARTICLE)
 
-  // 根据id获取文章
+  // 根据id获取文章1
   async function GET_ARTICLE_BY_ID (ctx, next) {
     const { id } = ctx.params
     if (id) {
