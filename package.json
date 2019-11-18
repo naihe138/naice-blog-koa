@@ -4,6 +4,7 @@
   "description": "naice new blog",
   "main": "index.js",
   "scripts": {
+    "dev": "node ./src/app.js",
     "start": "node start",
     "pm2": "pm2 deploy ecosystem.json production",
     "build": "webpack"
