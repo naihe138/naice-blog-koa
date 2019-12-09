@@ -14,11 +14,15 @@
 
 ### 运行
 
-`node ./src/app.js`
+`npm run dev`
 
 ### 打包
 
 `npm run build`
+
+### 运行打包代码
+
+`npm start`
 
 ### 功能
 
