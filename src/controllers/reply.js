@@ -28,9 +28,10 @@ const putReply = async (ctx, reply) => {
 	}
 
 	reply.likes = 0
-
+	console.log(123123)
 	// 发布评论回复
 	const res = await (new Reply(reply)).save()
+	console.log(123123, res)
 	let permalink = 'https://blog.naice.me'
 	if (reply.post_id) {
 		permalink = `https://blog.naice.me/article/${reply.post_id}`

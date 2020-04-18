@@ -3,10 +3,10 @@
 // 评论回复数据模型
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate')
-// const autoIncrement = require('mongoose-auto-increment')
+const autoIncrement = require('mongoose-auto-increment')
 
 // 自增ID初始化
-// autoIncrement.initialize(mongoose.connection)
+autoIncrement.initialize(mongoose.connection)
 // 标签模型
 const replySchema = new mongoose.Schema({
 	// 评论所在的文章_id
@@ -15,7 +15,7 @@ const replySchema = new mongoose.Schema({
 	cid: { type: String, required: true },
 	from: {
 		// 头像
-		gravatar: { type: String, default: '' },
+		gravatar: { type: String, default: '1' },
 		// 用户名
 		name: { type: String, required: true, validate: /\S+/ },
 		// 邮箱
@@ -55,12 +55,12 @@ const replySchema = new mongoose.Schema({
 
 // 翻页
 replySchema.plugin(mongoosePaginate)
-// replySchema.plugin(autoIncrement.plugin, {
-// 	model: 'Reply',
-// 	field: 'id',
-// 	startAt: 1,
-// 	incrementBy: 1
-// })
+replySchema.plugin(autoIncrement.plugin, {
+	model: 'Reply',
+	field: 'id',
+	startAt: 1,
+	incrementBy: 1
+})
 
 // 时间更新
 replySchema.pre('findOneAndUpdate', function(next) {
