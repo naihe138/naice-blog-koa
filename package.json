@@ -32,7 +32,7 @@
     "koa-cors": "^0.0.16",
     "koa-helmet": "^5.1.0",
     "koa-router": "^7.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mongoose": "^5.6.11",
     "mongoose-paginate": "^5.0.3",
     "nodemailer": "^6.3.0",
