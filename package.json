@@ -33,7 +33,7 @@
     "koa-helmet": "^5.1.0",
     "koa-router": "^7.4.0",
     "lodash": "^4.17.15",
-    "mongoose": "^5.6.11",
+    "mongoose": "^5.7.5",
     "mongoose-paginate": "^5.0.3",
     "nodemailer": "^6.3.0",
     "nodemailer-smtp-transport": "^2.7.4",
