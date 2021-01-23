@@ -5,7 +5,7 @@
 const config = require('../config')
 const { putArticle, delectArticle, editeArticle, getArticleById,
   getArticles, changeArticleStatus, getAllArticles, likeArticle } = require('../controllers/article')
-
+const transformMarkdown = require('../utils/transform-markdown')
 const {resError, resSuccess} = require('../utils/resHandle')
 const verifyParams = require('../middlewares/verify-params')
 const resolvePath = p => `${config.APP.ROOT_PATH}/article/${p}`
@@ -15,6 +15,8 @@ function articleRoute (router) {
   const ADD_ARTICLE_PARAMS = ['title', 'tag', 'content', 'editContent', 'keyword', 'descript']
   async function ADD_ARTICLE (ctx, next) {
     const opts = ctx.request.body
+    const htmlData = transformMarkdown(opts.content)
+    opts.editContent = htmlData.html
     let article = await putArticle(opts)
     // 百度推送 seo push
     // request.post({
@@ -73,7 +75,10 @@ function articleRoute (router) {
     const { id } = ctx.params
     if (id) {
       try {
-        const res = await editeArticle(id, ctx.request.body)
+        const opts = ctx.request.body
+        const htmlData = transformMarkdown(opts.content)
+        opts.editContent = htmlData.html
+        await editeArticle(id, opts)
         resSuccess({ ctx, message: '修改文章成功'})
       } catch(err) {
         resError({ ctx, message: '修改文章失败', err: err})
@@ -122,6 +127,19 @@ function articleRoute (router) {
     }
   }
   router.post(resolvePath('like/:id'), LICK_ARTICLE)
+
+  // 把markdown文本转译成html
+  async function TRANSFORM_MD (ctx, next) {
+    const { article } = ctx.request.body
+    try {
+      let ahtml = transformMarkdown(article)
+      resSuccess({ ctx, message: '修改成功', result: ahtml})
+    } catch(err) {
+      resError({ ctx, message: '修改失败', err: err})
+    }
+  }
+  const TRANSFORM_MD_PARAMS = ['article']
+  router.post(resolvePath('transform'), verifyParams(TRANSFORM_MD_PARAMS), TRANSFORM_MD)
 }
 
 module.exports = articleRoute
