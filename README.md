@@ -1,72 +1,73 @@
-博客地址：[naice-blog](https://github.com/naihe138/naice-blog)
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+</p>
 
-博客管理：[naice-blog-admin](https://github.com/naihe138/naice-blog-admin)
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-博客后台：[node-koa](https://github.com/naihe138/naice-blog-koa)
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-### 克隆项目
+## Description
 
-`git clone git@github.com:naihe138/naice-blog-koa.git`
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-### 安装
+## Installation
 
-`npm install `
+```bash
+$ npm install
+```
 
-### 运行
+## Running the app
 
-`node ./src/app.js`
+```bash
+# development
+$ npm run start
 
-### 打包
+# watch mode
+$ npm run start:dev
 
-`npm run build`
+# production mode
+$ npm run start:prod
+```
 
-### 功能
+## Test
 
-1. 登录、退出
-2. 文章管理
-   - 文章修改，删除
-   - 添加文章
-   - 草稿箱
-3. 标签管理
-   - 新增、修改、删除标签
-4. 留言墙管理
-   - 新增、修改、删除留言
-5. 文章评论管理
-   - 新增、修改、删除留言
-6. 项目管理
-   - 新增、修改、删除留言
-7. 音乐管理
-   - 新增、修改、删除音乐
-   - 上传音乐文件、海报到七牛云
+```bash
+# unit tests
+$ npm run test
 
-### 相关技术栈：
+# e2e tests
+$ npm run test:e2e
 
-+ vue + vuex + vue-router +nuxt
-+ react + redux + react-router + ant design
-+ token控制
-+ 按需加载，ssr
-+ ....
+# test coverage
+$ npm run test:cov
+```
 
+## Support
 
-### server
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-+ node + koa + mongoose
-+ 路由用了装饰器包装，鉴别参数是否正确
-+ 登录权限jwt
-+ 百度sro推送，邮件通知
-+ pm2自动化部署
-+ nginx + ssl + http2
-+ 缓存
-+ ....
+## Stay in touch
 
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-### 未来可能加入
+## License
 
-+ ~~网易云音乐~~
-+ 移动适配
-+ 页面数据可视化统计
-+ react-native
-+ ....
-
-
-如在浏览中遇到任何的bug，请留言我，我会第一时间修复，就此先谢谢
+Nest is [MIT licensed](LICENSE).
