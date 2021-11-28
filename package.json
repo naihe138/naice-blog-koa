@@ -25,10 +25,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run foo",
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+      "pre-commit": "bar",
+      "commit-msg": "commitlint -e HUSKY_GIT_PARAMS"
     }
   },
+  "pre-commit": [
+    "bar"
+  ],
   "dependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
