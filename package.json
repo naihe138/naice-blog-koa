@@ -25,14 +25,17 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": ""
+      "pre-commit": "",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   },
   "pre-commit": [
-    "foo",
-    "bar"
+    "format",
+    "lint"
   ],
   "dependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",
