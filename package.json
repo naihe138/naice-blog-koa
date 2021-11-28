@@ -23,6 +23,12 @@
     "foo": "echo \"fooo\" && exit 0",
     "bar": "echo \"bar\" && exit 0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run foo",
+      "pre-push": "npm run bar"
+    }
+  },
   "pre-commit": [
     "foo",
     "bar"
