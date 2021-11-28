@@ -12,6 +12,7 @@ import { ProjectModule } from './project/project.module';
 import { ReplyModule } from './reply/reply.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserModule } from './user/user.module';
     ReplyModule,
     UserModule,
     CommentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
