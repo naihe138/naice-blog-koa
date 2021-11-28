@@ -29,7 +29,7 @@
     }
   },
   "pre-commit": [
-    "format"
+    "foo"
   ],
   "dependencies": {
     "@commitlint/cli": "^15.0.0",
