@@ -4,6 +4,6 @@ import { MusicController } from './music.controller';
 
 @Module({
   controllers: [MusicController],
-  providers: [MusicService]
+  providers: [MusicService],
 })
 export class MusicModule {}

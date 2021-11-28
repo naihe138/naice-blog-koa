@@ -4,6 +4,6 @@ import { ReplyController } from './reply.controller';
 
 @Module({
   controllers: [ReplyController],
-  providers: [ReplyService]
+  providers: [ReplyService],
 })
 export class ReplyModule {}

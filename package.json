@@ -30,8 +30,7 @@
     }
   },
   "pre-commit": [
-    "format",
-    "lint"
+    "format"
   ],
   "dependencies": {
     "@commitlint/cli": "^15.0.0",
