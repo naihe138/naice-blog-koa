@@ -1,12 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { resError, resSuccess } from 'src/utils';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { TagService } from './tag.service';
@@ -16,13 +9,25 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Post()
-  create(@Body() createTagDto: CreateTagDto) {
-    return this.tagService.create(createTagDto);
+  async create(@Body() createTagDto: CreateTagDto) {
+    const message = 'tag create';
+    try {
+      const tag = this.tagService.create(createTagDto);
+      return resSuccess(tag, message);
+    } catch (err) {
+      return resError(err, message);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.tagService.findAll();
+  async findAll() {
+    const message = 'tag findAll';
+    try {
+      const tags = await this.tagService.findAll();
+      return resSuccess(tags, message);
+    } catch (err) {
+      return resError(err, message);
+    }
   }
 
   @Get(':id')
@@ -30,13 +35,19 @@ export class TagController {
     return this.tagService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagService.update(+id, updateTagDto);
+  @Post()
+  update(@Body() updateTagDto: UpdateTagDto) {
+    const message = 'tag update';
+    try {
+      const tags = this.tagService.update(updateTagDto);
+      return resSuccess(tags, message);
+    } catch (err) {
+      return resError(err, message);
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tagService.remove(+id);
+    return this.tagService.remove(id);
   }
 }

@@ -11,3 +11,15 @@ export function getEnv(key: string): string {
 }
 
 export const md5Decode = (pwd) => createHash('md5').update(pwd).digest('hex');
+
+export const resSuccess = (result, message) => ({
+  message: message + 'success',
+  result,
+  code: 0,
+});
+
+export const resError = (error, message) => ({
+  message: message + 'fail',
+  error,
+  code: 1,
+});

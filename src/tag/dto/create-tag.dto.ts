@@ -1,1 +1,4 @@
-export class CreateTagDto {}
+export class CreateTagDto {
+  name: string;
+  descript: string;
+}
