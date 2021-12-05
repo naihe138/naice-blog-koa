@@ -10,7 +10,7 @@ const md5Decode = pwd => crypto.createHash('md5').update(pwd).digest('hex')
 const initAdmin = async () => {
   const username = config.User.defaultUsername
   const password = md5Decode(config.User.defaultPassword)
-  let result = await User.find({}).exec().catch(err => {
+  let result = await User.find({ username }).exec().catch(err => {
     console.log(500, '服务器内部错误-查找admin错误！')
   })
   console.log(result)
