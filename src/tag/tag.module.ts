@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Tag, TagSchema } from './schemas/tag.schema';
+import { TagSchema } from './schemas/tag.schema';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 
@@ -8,7 +8,7 @@ import { TagService } from './tag.service';
   imports: [
     MongooseModule.forFeatureAsync([
       {
-        name: Tag.name,
+        name: 'Tag',
         useFactory: () => {
           const schema = TagSchema;
           schema.pre('findOneAndUpdate', function (next) {

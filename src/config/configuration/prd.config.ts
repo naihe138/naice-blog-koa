@@ -23,8 +23,8 @@ const EMAIL = {
 };
 
 const BAIDU = {
-  site: 'your_baidu_site',
-  token: 'your_baidu_token',
+  site: 'blog.naice.me',
+  token: 'qElL1d8KJMmRDnb4',
 };
 
 const APP = {

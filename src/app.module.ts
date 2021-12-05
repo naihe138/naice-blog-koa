@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
+import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
 import envConfig from './config/configuration';
 import { HeroModule } from './hero/hero.module';
@@ -12,7 +13,6 @@ import { ProjectModule } from './project/project.module';
 import { ReplyModule } from './reply/reply.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
