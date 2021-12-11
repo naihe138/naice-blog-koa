@@ -42,6 +42,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
+    "@vue/component-compiler-utils": "^3.3.0",
     "@vuepress/markdown": "^1.8.2",
     "cross-env": "^7.0.3",
     "husky": "^7.0.4",

@@ -13,6 +13,7 @@ import { ProjectModule } from './project/project.module';
 import { ReplyModule } from './reply/reply.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
+import { config } from './utils';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { UserModule } from './user/user.module';
       load: [envConfig],
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/nest'),
+    MongooseModule.forRoot(config.MONGODB_URI),
     HeroModule,
     MusicModule,
     ProjectModule,

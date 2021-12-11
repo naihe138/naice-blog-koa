@@ -107,20 +107,15 @@ export class ArticleService {
       querys['tag'] = tag;
     }
 
-    // 如果是前台请求，则重置公开状态和发布状态
-    //   if (!authIsVerified(ctx.request)) {
-    // 	querys.state = 1
-    // 	querys.publish = 1
-    //   }
     // 查询
     const amodule = this.articleModel as any;
     const result = await amodule.paginate(querys, options);
     if (result) {
       return {
         pagination: {
-          total: result.total,
-          current_page: result.page,
-          total_page: result.pages,
+          total: result.totalDocs,
+          current_page: result.totalPages,
+          total_page: result.page,
           page_size: result.limit,
         },
         list: result.docs,
@@ -133,7 +128,12 @@ export class ArticleService {
   async findAll() {
     // 查询
     const article = await this.articleModel.aggregate([
-      { $match: { state: 1, publish: 1 } },
+      {
+        $match: {
+          state: 1,
+          publish: 1,
+        },
+      },
       {
         $project: {
           year: { $year: '$create_at' },
@@ -167,21 +167,28 @@ export class ArticleService {
             if (n._id.year === item) {
               monthList.push({
                 month: n._id.month,
-                articleList: n.article.reverse(),
+                articleList: n.article,
               });
             }
           });
+          monthList.sort((a, b) => a.month - b.month);
           return { year: item, monthList };
         },
       );
-      return yearList;
+      return yearList.sort((a, b) => b.year - a.year);
     } else {
       return [];
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  async findOne(id: string) {
+    let article = await this.articleModel.findById(id).populate('tag');
+    if (article) {
+      // 每次请求，views 都增加一次
+      article.meta.views += 1;
+      article = await article.save();
+    }
+    return article;
   }
 
   async update(id: string, updateArticleDto: UpdateArticleDto) {
@@ -190,7 +197,17 @@ export class ArticleService {
     return await this.articleModel.findByIdAndUpdate(id, updateArticleDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  async remove(id: string) {
+    return await this.articleModel.findByIdAndRemove(id);
+  }
+
+  async like(id: string) {
+    let res = await this.articleModel.findById(id);
+    if (res) {
+      // 每次请求，views 都增加一次
+      res.meta.likes += 1;
+      res = await res.save();
+    }
+    return res;
   }
 }

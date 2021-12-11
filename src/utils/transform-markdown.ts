@@ -1,6 +1,9 @@
-import vuepress from '@vuepress/markdown';
-import markdownItContainer from 'markdown-it-container';
-
+// import vuepress from '@vuepress/markdown';
+// import markdownItContainer from 'markdown-it-container';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const vuepress = require('@vuepress/markdown');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const markdownItContainer = require('markdown-it-container');
 export type TTipItem = {
   className: string;
   text: string;

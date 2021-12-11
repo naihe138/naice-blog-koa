@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import envConfig from 'src/config/configuration';
 
-const config = envConfig();
+export const config = envConfig();
 export function isDev(): boolean {
   return process.env.APP_ENV === 'dev' ? true : false;
 }
@@ -23,3 +23,8 @@ export const resError = (error, message) => ({
   error,
   code: 1,
 });
+
+export const privateRes = {
+  resSuccess,
+  resError,
+};
