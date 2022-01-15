@@ -11,8 +11,10 @@ import { Hero, HeroSchema } from './schemas/hero.schema';
         name: Hero.name,
         useFactory: () => {
           const schema = HeroSchema;
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          schema.plugin(require('mongoose-paginate-v2'));
+          schema.pre('findOneAndUpdate', function (next) {
+            this.findOneAndUpdate({}, { update_at: Date.now() });
+            next();
+          });
           return schema;
         },
       },

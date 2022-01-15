@@ -31,7 +31,6 @@ export class HeroService {
     hero.agent = req.headers['user-agent'] || hero.agent;
 
     const ip_location = geoip.lookup(hero.ip);
-
     if (ip_location) {
       hero.city = ip_location.city;
       hero.range = ip_location.range;
