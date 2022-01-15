@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Model } from 'mongoose';
-import { CreateHeroDto } from './dto/create-hero.dto';
+import { TFindHero } from './dto/create-hero-type';
+import { CreateHeroDto, FindByOptions } from './dto/create-hero.dto';
 import { UpdateHeroDto } from './dto/update-hero.dto';
 import { Hero, HeroDocument } from './schemas/hero.schema';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -40,22 +41,66 @@ export class HeroService {
       }
     }
 
-    return await new Hero(hero).save();
+    return await new this.heroModel(hero).save();
   }
 
-  findAll() {
-    return `This action returns all hero`;
+  async findByOptions(opts: FindByOptions) {
+    const { current_page = 1, page_size = 12, keyword = '', state = 1 } = opts;
+    let result: Partial<TFindHero> = {};
+    // 过滤条件
+
+    const aggregationOptions = [
+      {
+        $skip: Number(current_page - 1) * Number(page_size), // 跳过第几个
+      },
+      {
+        $limit: Number(page_size), // 限制返回数量
+      },
+      {
+        $match: {
+          state: state, // 审核状态
+        },
+      },
+      {
+        $regexMatch: {
+          input: '$content',
+          regex: keyword,
+          options: 'i',
+        },
+      },
+      {
+        $sort: {
+          _id: -1,
+        },
+      },
+    ];
+    if (!keyword) {
+      aggregationOptions.splice(3, 1);
+    }
+
+    const list = await this.heroModel.aggregate(aggregationOptions);
+    const total = await this.heroModel.find().count();
+    if (list) {
+      result = {
+        pagination: {
+          total,
+          current_page,
+          page_size,
+          total_page: Math.ceil(total / Number(page_size)),
+        },
+        list,
+      };
+    } else {
+      result = {};
+    }
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} hero`;
+  update(id: string, updateHeroDto: UpdateHeroDto) {
+    return this.heroModel.findByIdAndUpdate(id, updateHeroDto);
   }
 
-  update(id: number, updateHeroDto: UpdateHeroDto) {
-    return `This action updates a #${id} hero`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} hero`;
+  remove(id: string) {
+    return this.heroModel.findByIdAndRemove(id);
   }
 }

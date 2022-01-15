@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   Patch,
   Post,
@@ -11,7 +10,7 @@ import {
 import { Request } from 'express';
 import { resError, resSuccess } from 'src/utils';
 import xss from 'xss';
-import { CreateHeroDto } from './dto/create-hero.dto';
+import { CreateHeroDto, FindByOptions } from './dto/create-hero.dto';
 import { UpdateHeroDto } from './dto/update-hero.dto';
 import { HeroService } from './hero.service';
 @Controller('hero')
@@ -29,23 +28,18 @@ export class HeroController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.heroService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.heroService.findOne(+id);
+  @Post('/get')
+  async findByOptions(@Body() options: FindByOptions) {
+    return this.heroService.findByOptions(options);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHeroDto: UpdateHeroDto) {
-    return this.heroService.update(+id, updateHeroDto);
+    return this.heroService.update(id, updateHeroDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.heroService.remove(+id);
+    return this.heroService.remove(id);
   }
 }

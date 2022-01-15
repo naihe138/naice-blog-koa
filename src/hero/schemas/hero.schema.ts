@@ -30,7 +30,7 @@ export class Hero extends Document {
     type: Number,
     default: 1,
   })
-  state: string; // 状态  0 待审核，1 审核通过， 2 审核不通过
+  state: number; // 状态  0 待审核，1 审核通过， 2 审核不通过
 
   @Prop({
     type: String,
