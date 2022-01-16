@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Article, ArticleSchema } from 'src/article/schemas/article.schema';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 import { Comment, CommentSchema } from './schemas/comment.schema';
@@ -15,6 +16,15 @@ import { Comment, CommentSchema } from './schemas/comment.schema';
             this.findOneAndUpdate({}, { update_at: Date.now() });
             next();
           });
+          return schema;
+        },
+      },
+    ]),
+    MongooseModule.forFeatureAsync([
+      {
+        name: Article.name,
+        useFactory: () => {
+          const schema = ArticleSchema;
           return schema;
         },
       },

@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import geoip from 'geoip-lite';
 export function transformIP(req: Request) {
   // 获取ip地址以及物理地理地址
@@ -10,7 +11,13 @@ export function transformIP(req: Request) {
     const ipList = (headers['x-forwarded-for'] as string).split(',');
     ip = ipList[0];
   }
-  const result: Partial<TTransformIP> = {};
+  const result: TTransformIP = {
+    ip,
+    agent: '',
+    city: '',
+    range: '',
+    country: '',
+  };
   result.ip = ip;
   result.agent = req.headers['user-agent'];
 
