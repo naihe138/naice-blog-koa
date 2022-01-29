@@ -1,42 +1,47 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  ValidationPipe,
 } from '@nestjs/common';
-import { ReplyService } from './reply.service';
+import { Request } from 'express';
 import { CreateReplyDto } from './dto/create-reply.dto';
 import { UpdateReplyDto } from './dto/update-reply.dto';
+import { ReplyService } from './reply.service';
 
 @Controller('reply')
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
 
   @Post()
-  create(@Body() createReplyDto: CreateReplyDto) {
-    return this.replyService.create(createReplyDto);
+  create(
+    @Body(new ValidationPipe()) createReplyDto: CreateReplyDto,
+    @Req() req: Request,
+  ) {
+    return this.replyService.create(createReplyDto, req);
   }
 
-  @Get()
-  findAll() {
-    return this.replyService.findAll();
+  @Get('all')
+  async findAll() {
+    return await this.replyService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.replyService.findOne(+id);
+  @Post('find/:id')
+  async findOneById(@Param('id') id: string) {
+    return await this.replyService.findById(id);
   }
 
-  @Patch(':id')
+  @Post('edit/:id')
   update(@Param('id') id: string, @Body() updateReplyDto: UpdateReplyDto) {
-    return this.replyService.update(+id, updateReplyDto);
+    return this.replyService.update(id, updateReplyDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.replyService.remove(+id);
+    return this.replyService.remove(id);
   }
 }

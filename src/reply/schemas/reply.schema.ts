@@ -1,6 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-export type HeroDocument = Reply & Document;
+export type ReplyDocument = Reply & Document;
 
 // 文章评论
 @Schema()
@@ -15,7 +15,7 @@ export class Reply extends Document {
     type: String,
     required: true,
   })
-  cid: number; // pid，0代表默认留言
+  cid: string; // pid，0代表默认留言
 
   @Prop(
     raw({
